@@ -1,0 +1,45 @@
+<% layout('layouts/boilerplate')%>
+    <% block('head').append('<title>All Campgrounds</title>') %>
+    <div id="cluster-map" class="mb-5" ></div>
+        <h1>All Campgrounds</h1>
+        <div class="mb-2">
+            <a href="/campgrounds/new">Add Campground</a>
+        </div>
+        <% for (let campground of campgrounds){%>
+            <div class="card mb-3">
+                <div class="row">
+                    <div class="col-md-4">
+                        <% if(campground.images.length){%>
+                            <img class="img-fluid" crossorigin="anonymous" alt="" src="<%=campground.images[0].url%>">
+                            <%}else{%>
+                                <img class="img-fluid" alt="" crossorigin="anonymous"
+                                    src="https://res.cloudinary.com/dzduhn81d/image/upload/v1719138600/YelpCamp/fq1d7suifrybgso8i7jw.png">
+                                <%}%>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <%= campground.title %>
+                            </h5>
+                            <p class="card-text">
+                                <%= campground.description %>
+                            </p>
+                            <p class="card-text">
+                                <small class="text-muted">
+                                    <%= campground.location%>
+                                </small>
+                            </p>
+                            <a class="btn btn-primary" href="/campgrounds/<%=campground._id%>">View
+                                <%=campground.title%>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <% }%>
+
+            <script>
+                const maptilerApiKey = '<%- process.env.MAPTILER_API_KEY %>';
+                const allCamps = { features : <%- JSON.stringify(campgrounds)%>}
+            </script>
+            <script src="/javascripts/clusterMap.js"></script>
